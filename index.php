@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use App\Database\Connection;
 use App\Router\Router;
+use App\Controllers\UserController;
 
 $db = new Connection();
 
@@ -15,16 +16,10 @@ try {
 
 $router = new Router();
 
-$router->registerEndpoint("/home", function () {
-  echo "sum shit or smt homepage";
-});
-$router->registerEndpoint("/about", function () {
-  echo "about page then";
-});
-$router->registerEndpoint("/contact", function () {
-  echo "now its time to contact";
-});
+//$router->use("/user", UserController::class);
+
+$router->post("/user/register", [UserController::class, "register"]);
+$router->post("/user/login", [UserController::class, "login"]);
+$router->get("/user/get", [UserController::class, "getUser"]);
 
 $router->run();
-$router->checkRequestPath();
-$router->getEndpoints();

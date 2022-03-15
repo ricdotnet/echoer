@@ -2,6 +2,10 @@
 
 namespace App\Router;
 
+use ReflectionClass as reflect;
+use ReflectionException as reflectException;
+use ReflectionMethod as reflectMethod;
+
 class Router extends RouterMethods {
 
   private string $requestPath;
@@ -17,12 +21,19 @@ class Router extends RouterMethods {
       if ($this->requestPath == $path[0]) {
         if ($this->requestMethod != $path[1]) break;
 
-        $class = new $path[2][0];
-        $fn    = $path[2][1];
+        try {
+          $reflector = new reflect($path[2][0]);
+          if ($reflector->hasMethod($path[2][1])) {
+            $method = new reflectMethod($reflector->getName(), $path[2][1]);
+            $data   = $method->invoke($reflector->newInstance());
+            Response::setResponse($data);
 
-        $data = call_user_func(array($class, $fn));
-        Response::setResponse($data);
-
+          } else {
+            die("method not found...");
+          }
+        } catch (reflectException $e) {
+          die($e);
+        }
         return;
       }
     }

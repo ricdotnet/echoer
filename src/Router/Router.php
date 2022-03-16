@@ -111,6 +111,8 @@ class Router extends RouterMethods {
     $this->requestPath   = $_SERVER["REQUEST_URI"];
     $this->requestMethod = $_SERVER["REQUEST_METHOD"];
 
+    Request::setRequestBody();
+
     if (!$this->isValidRequestMethod()) {
       $this->set404();
     } else {

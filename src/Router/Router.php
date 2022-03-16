@@ -18,7 +18,11 @@ class Router extends RouterMethods {
    */
   function checkRequestPath() {
     foreach ($this->getRoutes() as $path) {
-      if ($this->requestPath == $path[0]) {
+
+      $isMatch = $this->matchRoute($path[0]);
+
+      if ($isMatch) {
+//        if ($this->requestPath == $path[0]) {
         if ($this->requestMethod != $path[1]) break;
 
         try {
@@ -36,9 +40,17 @@ class Router extends RouterMethods {
         }
         return;
       }
+//      }
     }
-
     $this->set404();
+  }
+
+  // TODO: Refactor
+  function matchRoute($route): bool|int|null {
+//    $route = preg_replace("/\/{(.*?)}/", "/(.*?)", $route);
+    $route = preg_replace("/\/[{][a-zA-Z0-9]+[}]/", "/[a-zA-Z0-9]+", $route);
+    $uri   = $_SERVER["REQUEST_URI"];
+    return boolval(preg_match_all('#^' . $route . '$#', $uri, $matches, PREG_OFFSET_CAPTURE));
   }
 
 //  function checkRequestPath() {
@@ -63,6 +75,19 @@ class Router extends RouterMethods {
 //
 //    $this->set404();
 //  }
+
+  // TODO: Refactor
+  function getCurrentUri(): string {
+    $uri = substr(rawurldecode($_SERVER['REQUEST_URI']), strlen("http://127.0.0.1"));
+
+    // Don't take query params into account on the URL
+    if (str_contains($uri, '?')) {
+      $uri = substr($uri, 0, strpos($uri, '?'));
+    }
+
+    // Remove trailing slash + enforce a slash at the start
+    return '/' . trim($uri, '/');
+  }
 
   function matchTop(string $path): bool {
     $requestExploded = explode("/", $this->requestPath);
@@ -95,7 +120,7 @@ class Router extends RouterMethods {
    * @return bool
    */
   function isValidRequestMethod(): bool {
-    return preg_match("/(GET)|(POST)|(PATCH)|(DELETE)|(OPTIONS)/", $this->requestMethod);
+    return preg_match("/(GET)|(POST)|(PUT)|(PATCH)|(DELETE)|(OPTIONS)/", $this->requestMethod);
   }
 
   /**

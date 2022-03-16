@@ -12,7 +12,7 @@
     }
   ],
   "require": {
-    "ext-pdo": "*",
-    "ext-http": "*"
+    "php": "^8.1",
+    "ext-pdo": "*"
   }
 }

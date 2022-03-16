@@ -18,8 +18,11 @@ $router = new Router();
 
 //$router->use("/user", UserController::class);
 
-$router->post("/user/register", [UserController::class, "register"]);
-$router->post("/user/login", [UserController::class, "login"]);
-$router->get("/user/get", [UserController::class, "getUser"]);
+//$router->post("/user/register", [UserController::class, "register"]);
+//$router->post("/user/login", [UserController::class, "login"]);
+//$router->get("/user/get", [UserController::class, "getUser"]);
+$router->get("/user/testone", [UserController::class, "testOne"]);
+$router->get("/user/testtwo", [UserController::class, "testTwo"]);
+$router->get("/user/{username}", [UserController::class, "getUser"]);
 
 $router->run();

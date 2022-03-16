@@ -61,12 +61,21 @@ class UserController extends Controller {
                 ->send();
   }
 
+  // get user data
   function getUser(): string {
     $response           = (object)[];
-    $response->username = "ricdotnet";
-    $response->email    = "me@rrocha.uk";
-    $response->message  = "here is the user data";
+    $response->username = "hello user";
     return json_encode($response);
+  }
+
+  // testOne
+  function testOne() {
+    return "hello from test one";
+  }
+
+  // testTwo
+  function testTwo() {
+    return "hello from test two";
   }
 
 }

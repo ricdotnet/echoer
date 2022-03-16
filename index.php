@@ -6,13 +6,13 @@ use App\Database\Connection;
 use App\Router\Router;
 use App\Controllers\UserController;
 
-$db = new Connection();
+//$db = new Connection();
 
-try {
-  $db->tryConnect();
-} catch (PDOException $e) {
-  print "Error: " . $e->getMessage() . "\n";
-}
+//try {
+//  $db->tryConnect();
+//} catch (PDOException $e) {
+//  print "Error: " . $e->getMessage() . "\n";
+//}
 
 $router = new Router();
 

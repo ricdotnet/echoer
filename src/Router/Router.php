@@ -105,7 +105,7 @@ class Router extends RouterMethods {
    */
   function run() {
     // we can also use the Response::header();
-    header("content-type: application/json");
+//    header("content-type: application/json");
     header("X-Powered-By: Echoer.app");
 
     $this->requestPath   = $_SERVER["REQUEST_URI"];
